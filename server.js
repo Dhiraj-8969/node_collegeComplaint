@@ -4,6 +4,7 @@ const db = require('./db.js');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 const { jwtAuthMiddleware } = require('./jwt');
+require('dotenv').config();
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -16,7 +17,7 @@ app.use('/admin',jwtAuthMiddleware, adminRoutes);
 const complanRoutes = require('./routes/complanRoutes.js');
 app.use('/complan',jwtAuthMiddleware, complanRoutes);
 
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`)
 })
