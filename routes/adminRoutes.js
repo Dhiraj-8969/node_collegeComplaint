@@ -13,6 +13,24 @@ const checkAdminRole = async(userId) => {
   }
 }
 
+router.get('/', async(req, res) => {
+    try {
+        if (!await checkAdminRole(req.user.id)) {
+            return res.status(403).json({ massage: "user does not have admin role" });
+        }
+        const response = await complan.find();
+        if(!response.length){
+            return res.status(401).json({ massage: "Not any Complaints" });
+        }
+        console.log('Complaints fetched successfully');
+        res.status(200).json(response);
+  
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal Server Erorr' });
+    }
+  });
+
 router.put('/password', async(req, res) => {
     try {
         if (!await checkAdminRole(req.user.id)) {
